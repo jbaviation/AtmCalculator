@@ -6,25 +6,36 @@ package atmosphereus;
  */
 public class AtmosphereUS {
     public static String DEGREE = "\u00b0";
+    public static int WARNLAT = 0;   // track if latitude warning has been used so message doesn't appear multiple times
 
     
     
     public static void main(String[] args) {
 //  CHECK ALL NONSTDATMOSPHERE CALCULATIONS
-        
-//      Request latitude (in degrees N or S)
+
+// Temp Offset
         double lat = 45;
-        double alt = 18000;
-        double slp = 29.92;
-        double temp = 59;
-        double prat = AtmosphereLookupUS.pressureRatio(alt);
-        double palt = FlightLookupUS.pressureAltitude(alt,slp);
-        double press= NonStdAtmosphere.pressure(alt, slp);
-        double dalt = FlightLookupUS.densityAltitude(alt,slp,temp);
+        double alt = 1000;
+        double slp = 29.62;
+        double press = StdAtmosphere.pressure(alt, lat);
+        double nonpress = NonStdAtmosphere.pressure(alt, slp, lat);
         
-        System.out.format("pressure ratio = %5.4f\n",prat);
-        System.out.format("pressure altitude = %7.1f\n", palt);
-        System.out.format("density altitude = %7.1f\n", dalt);
+        System.out.format("At %7.0f feet\nStandard Pressure = %5.2f\nNon-Std Pressure = %5.2f\n",alt,press,nonpress);
+
+// Pressure and Density Altitude (re-check; DOES NOT WORK)
+//      Request latitude (in degrees N or S)
+//        double lat = 45;
+//        double alt = 18000;
+//        double slp = 29.92;
+//        double temp = 59;
+//        double prat = AtmosphereLookupUS.pressureRatio(alt);
+//        double palt = FlightLookupUS.pressureAltitude(alt,slp);
+//        double press= NonStdAtmosphere.pressure(alt, slp);
+//        double dalt = FlightLookupUS.densityAltitude(alt,slp,temp);
+//        
+//        System.out.format("pressure ratio = %5.4f\n",prat);
+//        System.out.format("pressure altitude = %7.1f\n", palt);
+//        System.out.format("density altitude = %7.1f\n", dalt);
 
 // Heading, course, wind corrections
 //        double[] hdggswca = new double[3];

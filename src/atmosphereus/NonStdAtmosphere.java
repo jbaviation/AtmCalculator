@@ -7,37 +7,55 @@ public class NonStdAtmosphere extends AtmosphereLookupUS {
     
 //***************************************************************************************//
 /* TEMPERATURE                                                                           */
-/* Compute the air temperature.                                                          */
+/* Compute the air temperature and temperature offset based on altitude                                                         */
 //***************************************************************************************//
+// Initial Test works! (2017-05-29)    
     public static double temperature(double alt, double temp_offset, double... latitude){
         double lat = latCheck(latitude);
         Check(alt, lat);
         double theta = temperatureRatio(alt,lat);
-        double temp  = (TZERO + temp_offset) * theta;
+        double temp  = (TZERO) * theta + temp_offset;
         return temp;
     }
 
+// Initial Test works! (2017-05-29)
+    public static double tempOffset(double alt, double temperature, double... latitude){
+        double lat = latCheck(latitude);
+        Check(alt, lat);
+        double theta = temperatureRatio(alt,lat);
+        double toff = (temperature + F2R) - TZERO*theta;
+        return toff;
+    }
 //***************************************************************************************//
 /* PRESSURE                                                                              */
 /* Compute the air pressure.                                                             */
 //***************************************************************************************//
-    public static double pressure(double alt, double seaLevelPress, double... latitude){
+    public static double pressure(double alt, double seaLevelPress, double temp, double... latitude){
         double lat = latCheck(latitude);
         Check(alt, lat);
         
         double seaLevelPress_psi = seaLevelPress * INHG2PSI;
-        
+
+//**************************************************************************************//        
      // Comes from https://wahiduddin.net/calc/density_altitude.htm
-        double plocal_inHg = Math.pow((Math.pow(seaLevelPress,0.1903) - 1.313e-5*alt),
-                5.255);
-        
+//          These methods are based on the way that NOAA NWS calcualtes the altimeter 
+//          setting for a given station location.  Therefore no temperature component
+//          is necessary.
+
+//        double plocal_inHg = Math.pow((Math.pow(seaLevelPress,0.1903) - 1.313e-5*alt),5.255);
+        double plocal_inHg = Math.pow(Math.pow(seaLevelPress,1.0/5.255) - 
+                1.313e-5*alt,1.0/0.1903);
+//**************************************************************************************//       
      // Alternate method   
-//        double delta = pressureRatio(alt,lat);
-//        double pressAlt = seaLevelPress_psi * delta;
-//        double pressAlt_inHg = pressAlt / INHG2PSI;
-        
-     // Select which method to use and convert to PSI
-        double press = plocal_inHg * INHG2PSI;
+//          Engineering method of calculating absolute pressure based on temperature.
+
+
+// Select which conversion method to use
+        double press = plocal_inHg;
+        int option = 1;     // 0 = inHg
+                            // 1 = psi
+        if (option == 1)
+            press = press * INHG2PSI;
         
         return press;
     }
@@ -86,4 +104,5 @@ public class NonStdAtmosphere extends AtmosphereLookupUS {
         double a    = Math.sqrt(GAM * RAIR * temp) * FPS2KTS;
         return a;
     }
+
 }

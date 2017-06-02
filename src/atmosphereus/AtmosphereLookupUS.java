@@ -8,7 +8,7 @@ import java.math.*;
  *  NOTE: equations valid between -90 to 90 deg latitude and -5000 to 282,000 ft
  */
 
-public class AtmosphereLookupUS {
+public class AtmosphereLookupUS extends AtmosphereUS {
 
 //  Conversion Constants
     static double FT2METERS     = 0.3048;           //mult feet to get meters
@@ -285,9 +285,10 @@ public class AtmosphereLookupUS {
         double lat = 45;        // Use 45 degree latitude if no lat is provided
         if (latitude.length > 0)
             lat = latitude[0];
-        else
+        else if ((latitude.length > 0) && (WARNLAT == 0)){
             System.out.println("WARNING: No latitude was provided (defaults to 45\u00b0)");
-        
+            WARNLAT = 1;
+        }
         return lat;
     }
     

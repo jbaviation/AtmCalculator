@@ -153,7 +153,7 @@ public class FlightLookupUS extends AtmosphereLookupUS {
         if (windSpeed < 0)
             windSpeed = Math.abs(windSpeed);
         else if (windSpeed > 1000)
-            System.err.print("Mother Nature has never created a wind that fast.\n"
+            System.err.print("Mother Nature has never generated a wind that fast.\n"
                     + "Please enter a more realistic wind speed.\n");
         
 //      Check if wind gusts are greater than or equal to the windspeed, otherwise

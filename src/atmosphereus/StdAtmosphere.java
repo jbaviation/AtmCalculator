@@ -27,6 +27,12 @@ public class StdAtmosphere extends AtmosphereLookupUS {
         Check(alt, lat);
         double delta = pressureRatio(alt,lat);
         double press = PZERO * delta;
+        
+     // Select which conversion method to use
+        int option = 1;     // 0 = inHg
+                            // 1 = psi
+        if (option == 0)
+            press = press / INHG2PSI;
         return press;
     }
 
