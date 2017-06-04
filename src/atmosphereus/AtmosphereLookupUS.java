@@ -35,6 +35,7 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     static double AZERO          = 661.479;       // sea-level speed of sound (kts)
     static double REARTHEQ       = 3443.91847;    // radius of the Earth at equator (nm)
     static double REARTHPOL      = 3432.37165;    // radius of the Earth at pole (nm)
+    static double PEARTH         = 365.2546;      // period of the Earth around sun (clock days)
     static double GMR            = 18.7432953;    // gas constant= g0*M0/r* (degR/ft)
     static double GAM            = 1.4;           // ratio of specific heats of air (dimless)
     static double RAIR           = 53.3533;       // specific gas constant air (ft*lbf/lbm/degR)
@@ -67,6 +68,131 @@ public class AtmosphereLookupUS extends AtmosphereUS {
         return rft;
     }
 
+//***************************************************************************************//
+/* ORBITAL PARAMETERS                                                                    */
+/* Calculate the Julian day, true anomaly,                                       */
+//***************************************************************************************//
+ 
+    public static double monthDay2JulianDay(String date, String leapYear, String... militaryTime){
+        // Check if leap year (yes/no)
+        int leapIO;
+        if (leapYear.toLowerCase().equals("yes"))
+            leapIO = 1;
+        else // if leapYear is "no" or anything else
+            leapIO = 0;
+        // leapIO = 1 for leap year
+        //        = 0 for no leap year
+        
+        // Check that date is in the correct format (MM-DD)
+        boolean checkDate = date.contains("/") || date.contains("-");
+        if (!checkDate)
+            System.err.println("Please enter date as MM-DD");
+        
+        // Check if time exists and is in the correct format (HH:MM:SS)
+        String time;
+        if (militaryTime.length >= 0){
+            time = militaryTime[0];
+        }
+        else
+            time = "00:00:00";
+        boolean checkTime = time.contains(":");
+        if (!checkTime)
+            System.err.println("Please enter time as HH:MM:SS");
+        
+        // Prep to parse out the month and day
+        String dateNew = date;   // define new date variable to modify
+        dateNew = dateNew.replace("/","-"); // convert any slashes to dashes for consistency
+        
+        int locDash = dateNew.indexOf("-"); // find location of dash (defaults to first dash)
+        String monthStr = dateNew.substring(0,locDash); // list month as a string
+        String dayStr = dateNew.substring(locDash+1); // list day as a string
+        
+        if (monthStr.length() > 2 || dayStr.length() > 2) // check for correct number of digits
+            System.err.println("Please enter date as MM-DD");
+        
+        // Parse month
+        if (monthStr.substring(0,1).equals("0"))// if leading digit is a zero ignore it
+            monthStr = monthStr.substring(1,2);
+        int month = Integer.parseInt(monthStr); // month as an integer
+        if (month < 1 || month > 12) // check if month is real
+            System.err.println(month + " is not a real month");
+        
+        // Parse day
+        if (dayStr.substring(0,1).equals("0"))
+            dayStr = dayStr.substring(1,2);
+        int day = Integer.parseInt(dayStr);
+        // Check that number of days is correct for the provided month and put name to month
+        String nameMonth = monthName(month,day);
+        int julianDay = julDay(month,day,leapIO);
+        
+        // Setup error message
+        String errorMsg = "Please enter a time between 00:00:00 and 23:59:59";
+        
+        // Prep to parse out the hours
+        String timeNew = time;
+        if (!timeNew.contains(":"))
+            System.err.println(errorMsg);
+        int locColon = time.indexOf(":");
+        String hourStr = timeNew.substring(0,locColon);
+        if (hourStr.length() > 2)
+            System.err.println(errorMsg);
+        timeNew = timeNew.substring(locColon+1);  // substring after the hours
+        
+        // Prep to parse out the minutes
+        if (!timeNew.contains(":"))
+            System.err.println(errorMsg);
+        locColon = timeNew.indexOf(":");
+        String minStr = timeNew.substring(0,locColon);
+        if (minStr.length() > 2)
+            System.err.println(errorMsg);
+        timeNew = timeNew.substring(locColon+1);  // substring after the minutes
+        
+        // Prep to parse out the seconds
+        String secStr = timeNew;
+        if (secStr.length() > 2)
+            System.err.println(errorMsg);        
+        
+        // Convert time strings to integers
+        if (hourStr.substring(0,1).equals("0"))// if leading digit is a zero ignore it
+            hourStr = hourStr.substring(1,2);
+        int hour = Integer.parseInt(hourStr); // hour as an integer
+        
+        if (minStr.substring(0,1).equals("0"))
+            minStr = minStr.substring(1,2);
+        int min = Integer.parseInt(minStr);
+        
+        if (secStr.substring(0,1).equals("0"))
+            secStr = secStr.substring(1,2);
+        int sec = Integer.parseInt(secStr);
+        
+        
+        boolean hCheck = hour < 0 || hour > 23;
+        boolean mCheck = min < 0  || min > 59;
+        boolean sCheck = sec < 0  || sec > 59;
+        if (hCheck || mCheck || sCheck) // check if time is real
+            System.err.println(time + " is not a real time.");
+        
+        // Convert hours, minutes and seconds into a day decimal
+        double dayDecimal = (hour + min/60.0 + sec/3600.0) / 24.0;
+        
+        // Combine Julian day with hours, minutes, and seconds
+        double julianDayCombined = (double)julianDay + dayDecimal;
+        
+        return julianDayCombined;
+
+        
+    }
+
+    public static double trueAnomaly(double julianDay){
+        // Calculate mean anomaly first, M
+        double M = 1;
+        // double M = 2.0*Math.PI * (t-tao)/PEARTH;
+        
+        // Determine true anomaly, nu
+        
+        return M;
+    }
+    
 //***************************************************************************************//
 /* LOCAL GRAVITY                                                                         */
 /* Calculate local gravitational acceleration due to latitude and altitude.              */
@@ -290,6 +416,95 @@ public class AtmosphereLookupUS extends AtmosphereUS {
             WARNLAT = 1;
         }
         return lat;
+    }
+    
+//  Name the month and check the day
+    public static String monthName(int month, int... day){
+        String mName = "";
+        int mDays = 0;
+        if (month == 1){
+            mName = "January";
+            mDays = 31;
+        }
+        else if (month == 2){
+            mName = "February";
+            mDays = 29; 
+        }
+        else if (month == 3){
+            mName = "March";
+            mDays = 31;            
+        }
+        else if (month == 4){
+            mName = "April";
+            mDays = 30;            
+        } 
+        else if (month == 5){
+            mName = "May";
+            mDays = 31;            
+        }
+        else if (month == 6){
+            mName = "June";
+            mDays = 30;           
+        }
+        else if (month == 7){
+            mName = "July";
+            mDays = 31;            
+        }
+        else if (month == 8){
+            mName = "August";
+            mDays = 31;            
+        }
+        else if (month == 9){
+            mName = "September";
+            mDays = 30;            
+        }
+        else if (month == 10){
+            mName = "October";
+            mDays = 31;            
+        }
+        else if (month == 11){
+            mName = "November";
+            mDays = 30;            
+        }
+        else if (month == 12){
+            mName = "December";
+            mDays = 31;           
+        }
+        else{
+            System.out.println("WARNING: " + month + " is not a recognizable month.");
+            mName = "Unknown";
+            mDays = 31;            
+        }
+        
+       // Check day if it exists and makes sense
+       int dayVal;
+       if (day.length >= 0){  // use first element if it is defined
+           if (day[0] > mDays){
+               System.err.print("You entered "+mName+" "+day[0]+". The max number of"
+                       + " days in "+mName+" is "+mDays);
+           }
+       }
+       // else day was not provided an don't check if it makes sense
+       
+       return mName;
+    }
+    
+//  Calculate Julian Day
+    public static int julDay(int month, int day, int leapYear){
+        // Define array of number of days in each month
+        int[] monthDays = {31,28,31,30,31,30,31,31,30,31,30,31};
+        
+        // Change array if leap year
+        if (leapYear == 1)
+            monthDays[1] = 29;
+        
+        int mDays = 0;
+        for (int i=0; i<month-1; i++){
+            mDays = mDays + monthDays[i];
+        }
+        int julianDay = mDays + day;
+        
+        return julianDay;
     }
     
 //  Accept the first "other" input

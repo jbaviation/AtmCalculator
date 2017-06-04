@@ -13,14 +13,21 @@ public class AtmosphereUS {
     public static void main(String[] args) {
 //  CHECK ALL NONSTDATMOSPHERE CALCULATIONS
 
-// Temp Offset
-        double lat = 45;
-        double alt = 1000;
-        double slp = 29.62;
-        double press = StdAtmosphere.pressure(alt, lat);
-        double nonpress = NonStdAtmosphere.pressure(alt, slp, lat);
-        
-        System.out.format("At %7.0f feet\nStandard Pressure = %5.2f\nNon-Std Pressure = %5.2f\n",alt,press,nonpress);
+// Check Julian Day
+        String date = "12-05";
+        String time = "12:00:00";
+        String leap = "no";
+        double julDay = AtmosphereLookupUS.monthDay2JulianDay(date, leap, time);
+        System.out.format("%s at %s is Julian Day %7.3f\n", date,time,julDay);
+
+// Temp Offset (Not done yet)
+//        double lat = 45;
+//        double alt = 1000;
+//        double slp = 29.62;
+//        double press = StdAtmosphere.pressure(alt, lat);
+//        double nonpress = NonStdAtmosphere.pressure(alt, slp, lat);
+//        
+//        System.out.format("At %7.0f feet\nStandard Pressure = %5.2f\nNon-Std Pressure = %5.2f\n",alt,press,nonpress);
 
 // Pressure and Density Altitude (re-check; DOES NOT WORK)
 //      Request latitude (in degrees N or S)
