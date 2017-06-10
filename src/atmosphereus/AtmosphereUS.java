@@ -4,6 +4,7 @@ package atmosphereus;
  *
  * @author jborman
  */
+import java.util.*;
 public class AtmosphereUS {
     public static String DEGREE = "\u00b0";
     public static int WARNLAT = 0;   // track if latitude warning has been used so message doesn't appear multiple times
@@ -14,11 +15,16 @@ public class AtmosphereUS {
 //  CHECK ALL NONSTDATMOSPHERE CALCULATIONS
 
 // Check Julian Day
-        String date = "12-05";
-        String time = "12:00:00";
-        String leap = "no";
-        double julDay = AtmosphereLookupUS.monthDay2JulianDay(date, leap, time);
-        System.out.format("%s at %s is Julian Day %7.3f\n", date,time,julDay);
+////        String date = "01-01";
+//        String time = "18:00:00";
+//        String leap = "no";
+//        double julDay = 366.99998;
+//        int[] moDay = new int[5];
+//        moDay = DateTime.monthDay(julDay,1);
+//        Date date = new Date();
+//        
+//        System.out.format("Julian day %5.2f is %d-%d at %d:%d:%d\n", julDay,moDay[0],moDay[1],
+//                moDay[2],moDay[3],moDay[4]);
 
 // Temp Offset (Not done yet)
 //        double lat = 45;
