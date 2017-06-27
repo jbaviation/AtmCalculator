@@ -20,6 +20,7 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     static double MS2KTS        = 900/463;          //mult m/s to get kts
     static double MB2INHG       = 33.8639;          //mult pressure millibars to get inHg
     static double INHG2PSI      = 0.491154;         //mult pressure inHg to get psi
+    static double PSI2KPA       = 6.89476;          //mult pressure psi to get kPascals
     
 //  Conversion Constants (US)
     static double GC            = 32.174;           //mult slugs to get lbm
@@ -27,6 +28,7 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     static double MI2NM         = 57875/50292;      //mult miles to get nautical miles 
     static double FPS2KTS       = 0.592484;         //mult fps to get kts
     static double F2R           = 459.67;           //add degF to get degR
+    static double C2K           = 273.15;           //add degC to get Kelvin
 
 // Physical Constants
     static double TZERO          = 518.67;        // sea level temperature (degR)
@@ -321,12 +323,12 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     
 //  Fahrenheit to Celsius
     public static double f2c(double fahrenheit){
-        double celsius = 5/9 * (fahrenheit - 32);
+        double celsius = 5.0/9.0 * (fahrenheit - 32.0);
         return celsius;
     }
 //  Celsius to Fahrenheit
     public static double c2f(double celsius){
-        double fahr = 9/5*celsius + 32;
+        double fahr = 9.0/5.0*celsius + 32.0;
         return fahr;
     }
     

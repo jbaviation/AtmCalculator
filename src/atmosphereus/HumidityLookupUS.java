@@ -21,11 +21,35 @@ public class HumidityLookupUS extends AtmosphereLookupUS {
         return rh;
     }
     
-    public static double vaporPressure(double dewPoint){
-        double dewPoint_C = f2c(dewPoint);
-        double vp = 6.11 * Math.pow(10.0,(7.5*dewPoint_C)/(237.7+dewPoint_C));
+    public static double vaporPressure(double dewPoint_C){
+        double vp = saturationVaporPressure(dewPoint_C, false); // vapor Pressure in kPa
+//        vp = vp / PSI2KPA;  // vapor pressure in psi
+        return vp;  // units are kPa
+    }
+    
+    public static double saturationVaporPressure(double temperature_C, boolean... overIce){
+        // Check if overIce is defined
+        boolean iceSFC;
+        if (overIce.length > 0)
+            iceSFC = overIce[0];
+        else
+            iceSFC = false;
         
-        return vp;
+        double L;
+        if (iceSFC)
+            L = 2.83e6;         // Latent heat of deposition over ice (J/kg)
+        else
+            L = 2.5e6;          // Latent heat of vaporization over water (J/kg)
+        
+        double e0 = 0.6108;    // kPa
+        double Rv = 461;        // J/K/kg
+        double T = 273.15;      // K
+        double T0 = temperature_C + C2K;
+        
+//        double es = e0*Math.exp(L/Rv * (1/T0 - 1/T));   // SVP in kPa
+        double es = e0*Math.exp(17.27*temperature_C/(temperature_C+237.3));
+        
+        return es;  // units are kPa
     }
     
     public static double millibar2inchHg(double pressuremb){

@@ -30,19 +30,19 @@ public class NonStdAtmosphere extends AtmosphereLookupUS {
 /* PRESSURE                                                                              */
 /* Compute the air pressure.                                                             */
 //***************************************************************************************//
-    public static double pressure(double alt, double seaLevelPress, double temp, double... latitude){
+// Initial Test works for both psi and inHg! (2017-06-11)
+    public static double pressure(double alt, double seaLevelPress, double... latitude){
         double lat = latCheck(latitude);
         Check(alt, lat);
         
         double seaLevelPress_psi = seaLevelPress * INHG2PSI;
 
 //**************************************************************************************//        
-     // Comes from https://wahiduddin.net/calc/density_altitude.htm
+// Comes from https://wahiduddin.net/calc/density_altitude.htm
 //          These methods are based on the way that NOAA NWS calcualtes the altimeter 
 //          setting for a given station location.  Therefore no temperature component
 //          is necessary.
 
-//        double plocal_inHg = Math.pow((Math.pow(seaLevelPress,0.1903) - 1.313e-5*alt),5.255);
         double plocal_inHg = Math.pow(Math.pow(seaLevelPress,1.0/5.255) - 
                 1.313e-5*alt,1.0/0.1903);
 //**************************************************************************************//       

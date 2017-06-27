@@ -37,18 +37,17 @@ public class AtmosphereUS {
 
 // Pressure and Density Altitude (re-check; DOES NOT WORK)
 //      Request latitude (in degrees N or S)
-//        double lat = 45;
-//        double alt = 18000;
-//        double slp = 29.92;
-//        double temp = 59;
-//        double prat = AtmosphereLookupUS.pressureRatio(alt);
-//        double palt = FlightLookupUS.pressureAltitude(alt,slp);
-//        double press= NonStdAtmosphere.pressure(alt, slp);
-//        double dalt = FlightLookupUS.densityAltitude(alt,slp,temp);
-//        
-//        System.out.format("pressure ratio = %5.4f\n",prat);
-//        System.out.format("pressure altitude = %7.1f\n", palt);
-//        System.out.format("density altitude = %7.1f\n", dalt);
+        double lat = 45;
+        double alt = 50 *1000;
+        double slp = 29.92;
+        double temp = 59;
+        double dewpt = 59;
+        double palt = FlightLookupUS.pressureAltitude(alt,slp);
+        double press= NonStdAtmosphere.pressure(alt, slp, lat);
+        double dalt = FlightLookupUS.densityAltitude(alt,slp,temp,dewpt);
+        
+        System.out.format("pressure altitude\t = %7.1f\n", palt);
+        System.out.format("density altitude\t = %7.1f\n", dalt); // issue comes from vapor pressure calculation (2017-06-11)
 
 // Heading, course, wind corrections
 //        double[] hdggswca = new double[3];

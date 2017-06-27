@@ -196,12 +196,9 @@ public class FlightLookupUS extends AtmosphereLookupUS {
         double slPress_psi = seaLevelPressure * INHG2PSI;
         double stdPress_psi = StdAtmosphere.pressure(altitude);
         
-     // Comes from https://wahiduddin.net/calc/density_altitude.htm
-//        double plocal_inHg = Math.pow((Math.pow(seaLevelPressure,0.1903) - 1.313e-5*altitude),
-//                5.255);
         double palt_ref = (1 - Math.pow(stdPress_psi/slPress_psi, 0.190284)) * 145366.45;
         palt = (altitude - palt_ref) + altitude;
-        
+
         return palt;
     }
     
@@ -222,18 +219,25 @@ public class FlightLookupUS extends AtmosphereLookupUS {
         
      // Convert to proper units
         double dewPoint_C = f2c(dewPoint_F);
+        if (dewPoint_C < -273.15)
+            dewPoint_C = -273.15;
         double temp_C = f2c(temperature);
+        if (temp_C < -273.15)
+            temp_C = -273.15;
         double temp_K = temp_C + 273.15;
         double temp_F = temperature;
         
-     // Calculate the virtual temperature
-        double vp = HumidityLookupUS.vaporPressure(dewPoint_F); // vapor pressure
+     // Calculate the virtual temperature 
+        double vp = HumidityLookupUS.vaporPressure(dewPoint_C); // vapor pressure in kPa
         double Tv_K = temp_K/(1-vp/plocal_mb*(1-0.622));
         double Tv_R = Tv_K * 9/5;
         
      // Calculate the density altitude
         double pre = Math.pow(17.326*plocal_inHg/Tv_R,0.235);
         dalt = 145366 * (1 - pre);
+
+     // Alternate method comes from https://wahiduddin.net/calc/density_altitude.htm
+//        double density = 
       
         return dalt;
     }
