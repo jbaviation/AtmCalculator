@@ -1,6 +1,7 @@
 Year      Date/Time of    Distance     Relative to     Date/Time of    Distance     Relative to    Perihelion
            Perihelion                    Mean Per.       Aphelion                     Mean Ap.      Interval
- 
+          1         2         3         4         5         6         7         8         9         10 
+01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
 2001     Jan 04  08:52   0.9832860 AU    -582 km      Jul 04  13:37   1.0166426 AU  -10122 km     367.15 days
 2002     Jan 02  14:09   0.9832898 AU     -20 km      Jul 06  03:47   1.0166882 AU   -3304 km     363.22 days
 2003     Jan 04  05:02   0.9833204 AU    4556 km      Jul 04  05:40   1.0167282 AU    2683 km     366.62 days

@@ -1,5 +1,8 @@
 package atmosphereus;
+import java.util.Calendar;
+import java.text.SimpleDateFormat;
 // All methods below are checked out (2017-06-10)
+//  - Added dayLookup (2017-07-03)
 
 public class DateTime {
     
@@ -276,7 +279,36 @@ public class DateTime {
        return mName;
     }
 
-
+//  Lookup current year, month, day, and time
+    public int[] dayLookup(){
+        String currentTime = new SimpleDateFormat("yyyyMMdd_HHmmss").
+                format(Calendar.getInstance().getTime());
+        
+        String currentYearStr = currentTime.substring(0,4);
+        String currentMonthStr= currentTime.substring(4,6);
+        String currentDayStr  = currentTime.substring(6,8);
+        String currentHourStr = currentTime.substring(9,11);
+        String currentMinStr  = currentTime.substring(11,13);
+        String currentSecStr  = currentTime.substring(13,15);
+        
+        int currentYear = Integer.parseInt(currentYearStr);
+        int currentMonth= Integer.parseInt(currentMonthStr);
+        int currentDay  = Integer.parseInt(currentDayStr);
+        int currentHour = Integer.parseInt(currentHourStr);
+        int currentMin  = Integer.parseInt(currentMinStr);
+        int currentSec  = Integer.parseInt(currentSecStr);
+        
+        int[] year_month_day_hour_min_sec = new int[6];
+        year_month_day_hour_min_sec[0] = currentYear;
+        year_month_day_hour_min_sec[1] = currentMonth;
+        year_month_day_hour_min_sec[2] = currentDay;
+        year_month_day_hour_min_sec[3] = currentHour;
+        year_month_day_hour_min_sec[4] = currentMin;
+        year_month_day_hour_min_sec[5] = currentSec;
+        
+        return year_month_day_hour_min_sec;
+        
+    }
 
 
 }

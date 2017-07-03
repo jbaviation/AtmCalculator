@@ -37,13 +37,18 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     static double AZERO          = 661.479;       // sea-level speed of sound (kts)
     static double REARTHEQ       = 3443.91847;    // radius of the Earth at equator (nm)
     static double REARTHPOL      = 3432.37165;    // radius of the Earth at pole (nm)
-    static double PEARTH         = 365.2546;      // period of the Earth around sun (clock days)
     static double GMR            = 18.7432953;    // gas constant= g0*M0/r* (degR/ft)
     static double GAM            = 1.4;           // ratio of specific heats of air (dimless)
     static double RAIR           = 53.3533;       // specific gas constant air (ft*lbf/lbm/degR)
     static double SUTHC1         = 7.30240704e-07;// Sutherland constant (lbm/[ft*s*sqrt(degR)])
     static double SUTHTEMP       = 198.72;        // Sutherland temperature (degR)
     static int    NTAB           = 8;             // number of increment changes (elements in xtab)
+    
+//  Orbital psuedo-constants
+    double[] PH = new double[4];  
+    PH = SunEarthGetter.perihelionDay();
+    static double PEARTH = SunEarthGetter.perihelionInterval(); // period of the Earth around sun (clock days)
+    PERIHELION_MO =
     
     static double htab[] = {0.0,36089.24,65616.80,104986.88,154199.48,167322.83,232939.63,278385.83}; // height (ft)
     static double ttab[] = {518.67,389.97,389.97,411.57,487.17,487.17,386.37,336.5028};  // temp (degR)
