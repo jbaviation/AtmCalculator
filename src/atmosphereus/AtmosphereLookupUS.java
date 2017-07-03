@@ -77,6 +77,7 @@ public class AtmosphereLookupUS extends AtmosphereUS {
 
 //  Calculate the true anomaly
     public static double trueAnomaly(double julianDay){
+        double tao = 3.0;   // Perihelion Julian Day
         // Calculate mean anomaly first, M
         double M = 1;
         // double M = 2.0*Math.PI * (t-tao)/PEARTH;
@@ -84,6 +85,16 @@ public class AtmosphereLookupUS extends AtmosphereUS {
         // Determine true anomaly, nu
         
         return M;
+    }
+    
+//  Calculate the distance between the sun and earth-moon barycenter
+    public static double sunEarthDistance(double trueAnomaly){
+        double a = 149.457e9;  // Astronomical unit; length of the semi-major axis (m)
+        double e = 0.0167;     // Earth's eccentricity
+        double nu= trueAnomaly;
+        double R = a*(1.0-e*e)/(1.0+e*Math.cos(nu));
+        
+        return R;
     }
     
 //***************************************************************************************//
