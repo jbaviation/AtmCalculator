@@ -29,8 +29,9 @@ public class SunEarthGetter {
     public boolean GONEXTLINE = false;
 
 //  Static method to pass on the class variables
-    public static double aphelionJulian(){
+    public static double aphelionJulian() throws FileNotFoundException, IOException{
         SunEarthGetter yr = new SunEarthGetter();
+        yr.lineReader();
         String ly = "no";
         if (yr.YEAR % 4 == 0)
             ly = "yes";
@@ -43,28 +44,33 @@ public class SunEarthGetter {
         double julDay = DateTime.dateTime2JulianDay(date, ly, miltime);
         return julDay;
     }
-    public static int aphelionMonth(){
+    public static int aphelionMonth() throws FileNotFoundException, IOException{
         SunEarthGetter ap = new SunEarthGetter();
+        ap.lineReader();
         int aphelionday = ap.APHELION_MO;
         return aphelionday;
     }
-    public static int aphelionDay(){
+    public static int aphelionDay() throws FileNotFoundException, IOException{
         SunEarthGetter ap = new SunEarthGetter();
+        ap.lineReader();
         int aphelionday = ap.APHELION_DY;
         return aphelionday;
     }
-    public static int aphelionHour(){
+    public static int aphelionHour() throws FileNotFoundException, IOException{
         SunEarthGetter ap = new SunEarthGetter();
+        ap.lineReader();
         int aphelionday = ap.APHELION_HR;
         return aphelionday;
     }
-    public static int aphelionMinute(){
+    public static int aphelionMinute() throws FileNotFoundException, IOException{
         SunEarthGetter ap = new SunEarthGetter();
+        ap.lineReader();
         int aphelionday = ap.APHELION_MN;
         return aphelionday;
     }
-    public static double perihelionJulian(){
+    public static double perihelionJulian() throws FileNotFoundException, IOException{
         SunEarthGetter yr = new SunEarthGetter();
+        yr.lineReader();
         String ly = "no";
         if (yr.YEAR % 4 == 0)
             ly = "yes";
@@ -77,35 +83,41 @@ public class SunEarthGetter {
         double julDay = DateTime.dateTime2JulianDay(date, ly, miltime);
         return julDay;
     }
-    public static int perihelionMonth(){
+    public static int perihelionMonth() throws FileNotFoundException, IOException{
         SunEarthGetter ap = new SunEarthGetter();
+        ap.lineReader();
         int perihelionday = ap.PERIHELION_MO;
         return perihelionday;
     }
-    public static int perihelionDay(){
+    public static int perihelionDay() throws FileNotFoundException, IOException{
         SunEarthGetter ap = new SunEarthGetter();
+        ap.lineReader();
         int perihelionday = ap.PERIHELION_DY;
         return perihelionday;
     }
-    public static int perihelionHour(){
+    public static int perihelionHour() throws FileNotFoundException, IOException{
         SunEarthGetter ap = new SunEarthGetter();
+        ap.lineReader();
         int perihelionday = ap.PERIHELION_HR;
         return perihelionday;
     }
-    public static int perihelionMinute(){
+    public static int perihelionMinute() throws FileNotFoundException, IOException{
         SunEarthGetter ap = new SunEarthGetter();
+        ap.lineReader();
         int perihelionday = ap.PERIHELION_MN;
         return perihelionday;
     }
-    public static double[] aphelionPerihelionDistance(){
+    public static double[] aphelionPerihelionDistance() throws FileNotFoundException, IOException{
         SunEarthGetter apd = new SunEarthGetter();
+        apd.lineReader();
         double[] dis = new double[2];
         dis[0] = apd.APHELION_DIS;
         dis[1] = apd.PERIHELION_DIS;
         return dis;
     }
-    public static double perihelionInterval(){
+    public static double perihelionInterval() throws FileNotFoundException, IOException{
         SunEarthGetter pi = new SunEarthGetter();
+        pi.lineReader();
         return pi.PERIHELION_INTVL;
     }
     
@@ -113,7 +125,7 @@ public class SunEarthGetter {
     public void lineReader() throws FileNotFoundException, IOException{
         
      // Start reading the EarthSunTime.txt file
-        FileReader fi = new FileReader("EarthSunTime.txt");
+        FileReader fi = new FileReader("src/atmosphereus/EarthSunTime.txt");
 
      // Start the buffered reader for reading line by line
         BufferedReader br = new BufferedReader(fi);
@@ -200,6 +212,27 @@ public class SunEarthGetter {
         String p_dis= lineText.substring(25,34);
         String p_int= lineText.substring(98,104);
         
+        // Adjust month, day, and time if leading digit is zero
+        boolean ady_check = a_dy.substring(0,1).equals("0");
+        boolean ahr_check = a_hr.substring(0,1).equals("0");
+        boolean amn_check = a_mn.substring(0,1).equals("0");
+        boolean pdy_check = p_dy.substring(0,1).equals("0");
+        boolean phr_check = p_hr.substring(0,1).equals("0");
+        boolean pmn_check = p_mn.substring(0,1).equals("0");
+        
+        if (ady_check)
+            a_dy = a_dy.substring(1);
+        if (ahr_check)
+            a_hr = a_hr.substring(1);
+        if (amn_check)
+            a_mn = a_mn.substring(1);
+        if (pdy_check)
+            p_dy = p_dy.substring(1);
+        if (phr_check)
+            p_hr = p_hr.substring(1);
+        if (pmn_check)
+            p_mn = p_mn.substring(1);
+        
         
         // Convert aphelion and perihelion data to numbers
         if (GONEXTLINE || GOPREVLINE){
@@ -208,15 +241,15 @@ public class SunEarthGetter {
                 APHELION_DY = Integer.parseInt(a_dy);
                 APHELION_HR = Integer.parseInt(a_hr);
                 APHELION_MN = Integer.parseInt(a_mn);
-                APHELION_DIS= Integer.parseInt(a_dis);           
+                APHELION_DIS= Double.parseDouble(a_dis);           
             }
             if (GOPREVLINE){
                 PERIHELION_MO = Integer.parseInt(p_mo);
                 PERIHELION_DY = Integer.parseInt(p_dy);
                 PERIHELION_HR = Integer.parseInt(p_hr);
                 PERIHELION_MN = Integer.parseInt(p_mn);
-                PERIHELION_DIS= Integer.parseInt(p_dis);
-                PERIHELION_INTVL=Integer.parseInt(p_int);            
+                PERIHELION_DIS= Double.parseDouble(p_dis);
+                PERIHELION_INTVL=Double.parseDouble(p_int);            
             }
         }
         else{
@@ -224,13 +257,13 @@ public class SunEarthGetter {
             APHELION_DY = Integer.parseInt(a_dy);
             APHELION_HR = Integer.parseInt(a_hr);
             APHELION_MN = Integer.parseInt(a_mn);
-            APHELION_DIS= Integer.parseInt(a_dis);
+            APHELION_DIS= Double.parseDouble(a_dis);
             PERIHELION_MO = Integer.parseInt(p_mo);
             PERIHELION_DY = Integer.parseInt(p_dy);
             PERIHELION_HR = Integer.parseInt(p_hr);
             PERIHELION_MN = Integer.parseInt(p_mn);
-            PERIHELION_DIS= Integer.parseInt(p_dis);
-            PERIHELION_INTVL=Integer.parseInt(p_int);
+            PERIHELION_DIS= Double.parseDouble(p_dis);
+            PERIHELION_INTVL=Double.parseDouble(p_int);
         }
     }
 }

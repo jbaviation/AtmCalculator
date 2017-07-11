@@ -45,10 +45,19 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     static int    NTAB           = 8;             // number of increment changes (elements in xtab)
     
 //  Orbital psuedo-constants
-    double[] PH = new double[4];  
-    PH = SunEarthGetter.perihelionDay();
-    static double PEARTH = SunEarthGetter.perihelionInterval(); // period of the Earth around sun (clock days)
-    PERIHELION_MO =
+//    static double PEARTH = SunEarthGetter.perihelionInterval(); // period of the Earth around sun (clock days)
+//    static double APHELIONJULIANDAY = SunEarthGetter.aphelionJulian(); // Julian day of earth's aphelion
+//    static double PERIHELIONJUULIANDAY = SunEarthGetter.perihelionJulian();// Julian day of earth's perihelion
+    static double PEARTH;
+    static double APHELIONJULIANDAY;
+    static double PERIHELIONJULIANDAY;
+    static double APHELIONDISTANCE;
+    static double PERIHELIONDISTANCE;
+    
+    static double APHELIONDAY;
+    static double APHELIONTIME;
+    static double PERIHELIONDAY;
+    static double PERIHELIONTIME;
     
     static double htab[] = {0.0,36089.24,65616.80,104986.88,154199.48,167322.83,232939.63,278385.83}; // height (ft)
     static double ttab[] = {518.67,389.97,389.97,411.57,487.17,487.17,386.37,336.5028};  // temp (degR)
@@ -227,7 +236,26 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     } 
 
     
-    
+
+//***************************************************************************************//
+/* RETRIEVE PSUEDO-CONSTANTS                                                             */
+//***************************************************************************************//
+    public static void getConstants() throws FileNotFoundException, IOException{
+        SunEarthGetter seg = new SunEarthGetter();
+        PEARTH = seg.PERIHELION_INTVL;
+        APHELIONJULIANDAY = seg.aphelionJulian();
+        PERIHELIONJULIANDAY = seg.perihelionJulian();
+        
+    }
+//        static double APHELIONJULIANDAY;
+//    static double PERIHELIONJULIANDAY;
+//    static double APHELIONDISTANCE;
+//    static double PERIHELIONDISTANCE;
+//    
+//    static double APHELIONDAY;
+//    static double APHELIONTIME;
+//    static double PERIHELIONDAY;
+//    static double PERIHELIONTIME;
     
 //***************************************************************************************//
 /* ADMINISTRATIVE CHECKS                                                                 */

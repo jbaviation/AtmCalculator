@@ -4,6 +4,8 @@ package atmosphereus;
  *
  * @author jborman
  */
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 public class AtmosphereUS {
     public static String DEGREE = "\u00b0";
@@ -11,13 +13,18 @@ public class AtmosphereUS {
 
     
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException, IOException{
+/****** DO NOT REMOVE, PREREQUISITE FOR ESTABLISHING CERTAIN CONSTANTS ********/
+        AtmosphereLookupUS.getConstants();
+/******************************************************************************/
+        
 //  CHECK ALL NONSTDATMOSPHERE CALCULATIONS
 
-// Check Local Time
-        int[] now = new int[3];
-        now = DateTime.dayLookup();
-        System.out.format("%d %d %d \n",now[0],now[1],now[2]);//,now[3],now[4],now[5]);
+// Checkout SunEarthGetter
+        
+        double julianAH = SunEarthGetter.aphelionJulian();
+        double julianPH = SunEarthGetter.perihelionJulian();
+        System.out.format("aphelion = %7.3f\nperihelion = %7.3f\n\n", julianAH, julianPH);
 
 // Check Julian Day
 ////        String date = "01-01";

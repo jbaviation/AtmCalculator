@@ -12,7 +12,6 @@ Year      Date/Time of    Distance     Relative to     Date/Time of    Distance 
 2008     Jan 02  23:51   0.9832801 AU   -1476 km      Jul 04  07:41   1.0167535 AU    6465 km     364.17 days
 2009     Jan 04  15:30   0.9832730 AU   -2526 km      Jul 04  01:40   1.0166664 AU   -6563 km     367.65 days
 2010     Jan 03  00:09   0.9832897 AU     -38 km      Jul 06  11:30   1.0167020 AU   -1246 km     363.36 days
-
 2011     Jan 03  18:32   0.9833413 AU    7681 km      Jul 04  14:54   1.0167404 AU    4501 km     365.77 days
 2012     Jan 05  00:32   0.9832841 AU    -871 km      Jul 05  03:32   1.0166751 AU   -5270 km     366.25 days
 2013     Jan 02  04:38   0.9832905 AU      82 km      Jul 05  14:44   1.0167085 AU    -268 km     363.17 days
@@ -23,7 +22,6 @@ Year      Date/Time of    Distance     Relative to     Date/Time of    Distance 
 2018     Jan 03  05:35   0.9832843 AU    -845 km      Jul 06  16:47   1.0166961 AU   -2129 km     363.64 days
 2019     Jan 03  05:20   0.9833012 AU    1681 km      Jul 04  22:11   1.0167543 AU    6590 km     364.99 days
 2020     Jan 05  07:48   0.9832436 AU   -6935 km      Jul 04  11:35   1.0166943 AU   -2399 km     367.10 days
-
 2021     Jan 02  13:51   0.9832571 AU   -4916 km      Jul 05  22:27   1.0167292 AU    2832 km     363.25 days
 2022     Jan 04  06:55   0.9833365 AU    6973 km      Jul 04  07:11   1.0167154 AU     760 km     366.71 days
 2023     Jan 04  16:17   0.9832956 AU     845 km      Jul 06  20:07   1.0166806 AU   -4444 km     365.39 days
@@ -34,7 +32,6 @@ Year      Date/Time of    Distance     Relative to     Date/Time of    Distance 
 2028     Jan 05  12:28   0.9833074 AU    2608 km      Jul 03  22:18   1.0166798 AU   -4566 km     367.41 days
 2029     Jan 02  18:13   0.9832917 AU     270 km      Jul 06  05:12   1.0167127 AU     362 km     363.24 days
 2030     Jan 03  10:12   0.9833418 AU    7758 km      Jul 04  12:58   1.0167227 AU    1848 km     365.67 days
-
 2031     Jan 04  20:48   0.9832664 AU   -3516 km      Jul 06  07:10   1.0166882 AU   -3308 km     366.44 days
 2032     Jan 03  05:11   0.9832469 AU   -6437 km      Jul 05  11:54   1.0167510 AU    6086 km     363.35 days
 2033     Jan 04  11:51   0.9832989 AU    1350 km      Jul 03  20:52   1.0166936 AU   -2494 km     367.28 days
@@ -45,7 +42,6 @@ Year      Date/Time of    Distance     Relative to     Date/Time of    Distance 
 2038     Jan 03  05:01   0.9833549 AU    9718 km      Jul 04  19:46   1.0166909 AU   -2904 km     365.04 days
 2039     Jan 05  06:41   0.9833113 AU    3192 km      Jul 05  13:25   1.0166588 AU   -7700 km     367.07 days
 2040     Jan 03  11:33   0.9832937 AU     557 km      Jul 05  19:02   1.0167271 AU    2517 km     363.20 days
-
 2041     Jan 03  21:52   0.9833471 AU    8554 km      Jul 04  01:38   1.0166887 AU   -3235 km     366.43 days
 2042     Jan 04  09:07   0.9833014 AU    1723 km      Jul 06  13:10   1.0166554 AU   -8212 km     365.47 days
 2043     Jan 02  22:15   0.9832882 AU    -257 km      Jul 06  02:25   1.0167441 AU    5064 km     363.55 days
