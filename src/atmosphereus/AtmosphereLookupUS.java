@@ -21,6 +21,7 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     static double MB2INHG       = 33.8639;          //mult pressure millibars to get inHg
     static double INHG2PSI      = 0.491154;         //mult pressure inHg to get psi
     static double PSI2KPA       = 6.89476;          //mult pressure psi to get kPascals
+    static double FT2AU         = 2.03746e-12;      //mult feet to get astronomical units
     
 //  Conversion Constants (US)
     static double GC            = 32.174;           //mult slugs to get lbm
@@ -45,20 +46,13 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     static int    NTAB           = 8;             // number of increment changes (elements in xtab)
     
 //  Orbital psuedo-constants
-//    static double PEARTH = SunEarthGetter.perihelionInterval(); // period of the Earth around sun (clock days)
-//    static double APHELIONJULIANDAY = SunEarthGetter.aphelionJulian(); // Julian day of earth's aphelion
-//    static double PERIHELIONJUULIANDAY = SunEarthGetter.perihelionJulian();// Julian day of earth's perihelion
-    static double PEARTH;
-    static double APHELIONJULIANDAY;
-    static double PERIHELIONJULIANDAY;
-    static double APHELIONDISTANCE;
-    static double PERIHELIONDISTANCE;
-    
-    static double APHELIONDAY;
-    static double APHELIONTIME;
-    static double PERIHELIONDAY;
-    static double PERIHELIONTIME;
-    
+    static double PEARTH;                         // period of the Earth around sun (clock days)
+    static double APHELIONJULIANDAY;              // Julian day of earth's aphelion
+    static double PERIHELIONJULIANDAY;            // Julian day of earth's perihelion
+    static double APHELIONDISTANCE;               // ellipical aphelion distance from sun (feet)
+    static double PERIHELIONDISTANCE;             // ellipical perihelion distance from sun (feet)
+
+//  Height, temperature, pressure, and lapse rate discontinunities
     static double htab[] = {0.0,36089.24,65616.80,104986.88,154199.48,167322.83,232939.63,278385.83}; // height (ft)
     static double ttab[] = {518.67,389.97,389.97,411.57,487.17,487.17,386.37,336.5028};  // temp (degR)
     static double ptab[] = {1.0,2.2336110E-1,5.4032950E-2,8.5666784E-3,1.0945601E-3,6.6063531E-4,3.9046834E-5,3.68501E-6}; // press (ratio to sl)
@@ -103,13 +97,15 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     
 //  Calculate the distance between the sun and earth-moon barycenter
     public static double sunEarthDistance(double trueAnomaly){
-        double a = 149.457e9;  // Astronomical unit; length of the semi-major axis (m)
-        double e = 0.0167;     // Earth's eccentricity
+        double a = 1/FT2AU;     // Astronomical unit; length of the semi-major axis (m)
+        double e = (APHELIONDISTANCE-PERIHELIONDISTANCE)/
+                   (APHELIONDISTANCE+PERIHELIONDISTANCE); // Earth's eccentricity
         double nu= trueAnomaly;
         double R = a*(1.0-e*e)/(1.0+e*Math.cos(nu));
         
         return R;
     }
+    
     
 //***************************************************************************************//
 /* LOCAL GRAVITY                                                                         */
@@ -241,21 +237,16 @@ public class AtmosphereLookupUS extends AtmosphereUS {
 /* RETRIEVE PSUEDO-CONSTANTS                                                             */
 //***************************************************************************************//
     public static void getConstants() throws FileNotFoundException, IOException{
-        SunEarthGetter seg = new SunEarthGetter();
-        PEARTH = seg.PERIHELION_INTVL;
-        APHELIONJULIANDAY = seg.aphelionJulian();
-        PERIHELIONJULIANDAY = seg.perihelionJulian();
+        PEARTH = SunEarthGetter.perihelionInterval();
+        APHELIONJULIANDAY = SunEarthGetter.aphelionJulian();
+        PERIHELIONJULIANDAY = SunEarthGetter.perihelionJulian();
+        
+        double[] dis = new double[2];
+        dis = SunEarthGetter.aphelionPerihelionDistance();
+        APHELIONDISTANCE = dis[0] / FT2AU;
+        PERIHELIONDISTANCE = dis[1] / FT2AU;
         
     }
-//        static double APHELIONJULIANDAY;
-//    static double PERIHELIONJULIANDAY;
-//    static double APHELIONDISTANCE;
-//    static double PERIHELIONDISTANCE;
-//    
-//    static double APHELIONDAY;
-//    static double APHELIONTIME;
-//    static double PERIHELIONDAY;
-//    static double PERIHELIONTIME;
     
 //***************************************************************************************//
 /* ADMINISTRATIVE CHECKS                                                                 */

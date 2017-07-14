@@ -28,7 +28,9 @@ public class SunEarthGetter {
     public boolean GOPREVLINE = false;
     public boolean GONEXTLINE = false;
 
-//  Static method to pass on the class variables
+//****************************************************************************
+//  Static methods to pass on the class variables
+//****************************************************************************
     public static double aphelionJulian() throws FileNotFoundException, IOException{
         SunEarthGetter yr = new SunEarthGetter();
         yr.lineReader();
@@ -120,6 +122,7 @@ public class SunEarthGetter {
         pi.lineReader();
         return pi.PERIHELION_INTVL;
     }
+//****************************************************************************
     
 //  Method for reading the lines
     public void lineReader() throws FileNotFoundException, IOException{
@@ -204,6 +207,11 @@ public class SunEarthGetter {
         String a_mn = lineText.substring(65,67);
         String a_dis= lineText.substring(70,79);
         
+        a_dy =  a_dy.replace(" ","");
+        a_hr =  a_hr.replace(" ","");
+        a_mn =  a_mn.replace(" ","");
+        a_dis= a_dis.replace(" ","");
+        
         // First guess at month, day and time of perihelion
         String p_mo = "1";
         String p_dy = lineText.substring(13,15);
@@ -211,6 +219,12 @@ public class SunEarthGetter {
         String p_mn = lineText.substring(21,23);
         String p_dis= lineText.substring(25,34);
         String p_int= lineText.substring(98,104);
+        
+        p_dy =  p_dy.replace(" ","");
+        p_hr =  p_hr.replace(" ","");
+        p_mn =  p_mn.replace(" ","");
+        p_dis= p_dis.replace(" ","");
+        p_int= p_int.replace(" ","");
         
         // Adjust month, day, and time if leading digit is zero
         boolean ady_check = a_dy.substring(0,1).equals("0");
@@ -236,14 +250,14 @@ public class SunEarthGetter {
         
         // Convert aphelion and perihelion data to numbers
         if (GONEXTLINE || GOPREVLINE){
-            if (GONEXTLINE){
+            if (GOPREVLINE){
                 APHELION_MO = Integer.parseInt(a_mo);
                 APHELION_DY = Integer.parseInt(a_dy);
                 APHELION_HR = Integer.parseInt(a_hr);
                 APHELION_MN = Integer.parseInt(a_mn);
                 APHELION_DIS= Double.parseDouble(a_dis);           
             }
-            if (GOPREVLINE){
+            if (GONEXTLINE){
                 PERIHELION_MO = Integer.parseInt(p_mo);
                 PERIHELION_DY = Integer.parseInt(p_dy);
                 PERIHELION_HR = Integer.parseInt(p_hr);
