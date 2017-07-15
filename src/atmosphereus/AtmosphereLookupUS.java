@@ -51,6 +51,9 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     static double PERIHELIONJULIANDAY;            // Julian day of earth's perihelion
     static double APHELIONDISTANCE;               // ellipical aphelion distance from sun (feet)
     static double PERIHELIONDISTANCE;             // ellipical perihelion distance from sun (feet)
+    
+    static int PRESENTYEAR;                       // present year
+    static double PRESENTJULIANDAY;               // present Julian day
 
 //  Height, temperature, pressure, and lapse rate discontinunities
     static double htab[] = {0.0,36089.24,65616.80,104986.88,154199.48,167322.83,232939.63,278385.83}; // height (ft)
@@ -85,14 +88,16 @@ public class AtmosphereLookupUS extends AtmosphereUS {
 
 //  Calculate the true anomaly
     public static double trueAnomaly(double julianDay){
-        double tao = 3.0;   // Perihelion Julian Day
+        double tao = PERIHELIONJULIANDAY;   // Perihelion Julian Day
+        
         // Calculate mean anomaly first, M
-        double M = 1;
-        // double M = 2.0*Math.PI * (t-tao)/PEARTH;
+        double M = 2.0*Math.PI * (julianDay-tao)/PEARTH;
         
         // Determine true anomaly, nu
+        double nu = M + 0.0333988*Math.sin(M) + 0.0003486*Math.sin(2*M) +
+                      0.000005*Math.sin(3*M);
         
-        return M;
+        return nu;
     }
     
 //  Calculate the distance between the sun and earth-moon barycenter
@@ -237,14 +242,41 @@ public class AtmosphereLookupUS extends AtmosphereUS {
 /* RETRIEVE PSUEDO-CONSTANTS                                                             */
 //***************************************************************************************//
     public static void getConstants() throws FileNotFoundException, IOException{
+    //  Get time around sun (days) and aphelion/perihelion Julian day
         PEARTH = SunEarthGetter.perihelionInterval();
         APHELIONJULIANDAY = SunEarthGetter.aphelionJulian();
         PERIHELIONJULIANDAY = SunEarthGetter.perihelionJulian();
         
+    //  Get aphelion and perihelion distances (ft)
         double[] dis = new double[2];
         dis = SunEarthGetter.aphelionPerihelionDistance();
         APHELIONDISTANCE = dis[0] / FT2AU;
         PERIHELIONDISTANCE = dis[1] / FT2AU;
+        
+    //  Get current date/time from DateTime.java
+        int[] current = new int[6];
+        DateTime dy = new DateTime();
+        current = dy.dayLookup();
+        PRESENTYEAR = current[0];
+        String year  = Integer.toString(current[0]).substring(2);
+        String month = Integer.toString(current[1]);
+        String day   = Integer.toString(current[2]);
+        String hour  = Integer.toString(current[3]);
+        String min   = Integer.toString(current[4]);
+        String sec   = Integer.toString(current[5]);
+        
+    //  Evaluate if leap year
+        String leapYear = "no";
+        if (PRESENTYEAR % 4 == 0)
+            leapYear = "yes";
+        
+    //  Combine date/time
+        String date = DateTime.convertDateTime(month, day, year, "date");
+        date = date.substring(0,5);
+        String time = DateTime.convertDateTime(hour, min, sec, "time");
+    
+    //  Calculate current Julian day
+        PRESENTJULIANDAY = DateTime.dateTime2JulianDay(date, leapYear, time);
         
     }
     

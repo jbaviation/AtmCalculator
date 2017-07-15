@@ -309,6 +309,39 @@ public class DateTime {
         return year_month_day_hour_min_sec;
         
     }
+    
+//  Convert string day/month/time to logical output
+    public static String convertDateTime(String monthOrHour, String dayOrMinute, String yearOrSecond, String dateOrTime){
+        String output = "";
+        String dot = dateOrTime.toLowerCase();
+        if (dot.contains("date") || dot.contains("day")){
+            output = dateTimeFormat(monthOrHour)+"-"+dateTimeFormat(dayOrMinute)+"-"+dateTimeFormat(yearOrSecond);
+        }
+        else if (dot.contains("time")){
+            output = dateTimeFormat(monthOrHour)+":"+dateTimeFormat(dayOrMinute)+":"+dateTimeFormat(yearOrSecond);
+        }
+        else
+            System.err.println("Input not recognized as a date or time");
+        
+        return output;
+    }
 
+//  Evaluate proper location for zeroes
+    public static String dateTimeFormat(String input){
+        String output = "";
+        if (input.length() > 2){
+            System.err.println("enter month, day, year and hour, minute, second with 2 digits");
+        }
+        
+    //  Check how many digits the input has
+        if (input.length() == 1){
+            output = "0" + input;
+        }
+        else{
+            output = input;
+        }
+        
+        return output;
+    }
 
 }
