@@ -20,11 +20,26 @@ public class AtmosphereUS {
         
 //  CHECK ALL NONSTDATMOSPHERE CALCULATIONS
 
+// Checkout horizon calculator
+        
+        System.out.println("Height\tHorizon Distance");
+        for (int i=1; i <= 10; i++){
+            double x = (double) i;
+            double h = 1.0 * Math.pow(10, x);
+            double dis = AtmosphereLookupUS.horizonDistance(h);
+            System.out.format("%12.0f\t%12.2f\n", h, dis/5280);
+        }
+
+// Checkout sun earth distance
+//        double nu = AtmosphereLookupUS.trueAnomaly(115);
+//        double dis= AtmosphereLookupUS.sunEarthDistance(nu);
+//        System.out.format("true anomaly:\t%5.2f deg\ndistance:\t%6.2f Gft\n", nu, dis*1e-9);
+
 // Checkout SunEarthGetter
         
-        double julianAH = SunEarthGetter.aphelionJulian();
-        double julianPH = SunEarthGetter.perihelionJulian();
-        System.out.format("aphelion = %7.3f\nperihelion = %7.3f\n\n", julianAH, julianPH);
+//        double julianAH = SunEarthGetter.aphelionJulian();
+//        double julianPH = SunEarthGetter.perihelionJulian();
+//        System.out.format("aphelion = %7.3f\nperihelion = %7.3f\n\n", julianAH, julianPH);
 
 // Check Julian Day
 ////        String date = "01-01";

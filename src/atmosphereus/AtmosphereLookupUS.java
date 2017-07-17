@@ -97,18 +97,29 @@ public class AtmosphereLookupUS extends AtmosphereUS {
         double nu = M + 0.0333988*Math.sin(M) + 0.0003486*Math.sin(2*M) +
                       0.000005*Math.sin(3*M);
         
-        return nu;
+        return nu * 180 / Math.PI;  // Return true anomaly in degrees
     }
     
 //  Calculate the distance between the sun and earth-moon barycenter
-    public static double sunEarthDistance(double trueAnomaly){
+    public static double sunEarthDistance(double trueAnomaly_degrees){
         double a = 1/FT2AU;     // Astronomical unit; length of the semi-major axis (m)
         double e = (APHELIONDISTANCE-PERIHELIONDISTANCE)/
                    (APHELIONDISTANCE+PERIHELIONDISTANCE); // Earth's eccentricity
-        double nu= trueAnomaly;
+        double nu= trueAnomaly_degrees * Math.PI / 180;
         double R = a*(1.0-e*e)/(1.0+e*Math.cos(nu));
         
         return R;
+    }
+    
+//  Calculate distance to the horizon
+    public static double horizonDistance(double alt_agl, double... latitude){
+        double lat = latCheck(latitude);
+        Check(alt_agl, lat);
+        
+        // Young's method of horizon calculator
+        double Rprime = 7/6 * radiusEarth(lat);
+        double d = Math.sqrt(2*Rprime*alt_agl);
+        return d;
     }
     
     
