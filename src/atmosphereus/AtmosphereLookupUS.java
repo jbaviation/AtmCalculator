@@ -51,6 +51,8 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     static double PERIHELIONJULIANDAY;            // Julian day of earth's perihelion
     static double APHELIONDISTANCE;               // ellipical aphelion distance from sun (feet)
     static double PERIHELIONDISTANCE;             // ellipical perihelion distance from sun (feet)
+    static double SUMMERJULIANDAY;                // summer solstice Julian day
+    static double WINTERJULIANDAY;                // winter solstice Julian day
     
     static int PRESENTYEAR;                       // present year
     static double PRESENTJULIANDAY;               // present Julian day
@@ -83,7 +85,8 @@ public class AtmosphereLookupUS extends AtmosphereUS {
 
 //***************************************************************************************//
 /* ORBITAL PARAMETERS                                                                    */
-/* Calculate the true anomaly,                                       */
+/* Calculate the true anomaly, exact distance between the sun and earth,                 */
+/* horizon distance calculator, and horizon curvature                                    */
 //***************************************************************************************//
 
 //  Calculate the true anomaly
@@ -120,6 +123,18 @@ public class AtmosphereLookupUS extends AtmosphereUS {
         double Rprime = 7/6 * radiusEarth(lat);
         double d = Math.sqrt(2*Rprime*alt_agl);
         return d;
+    }
+    
+//  Calculate earth's horizon curvature from left to right
+    public static double horizonCurvature(double alt_agl, double... latitude){
+        double lat = latCheck(latitude);
+        Check(alt_agl, lat);
+        
+        // Geometric relationship for curvature
+        double R = radiusEarth(lat);
+        double kappa = Math.sqrt(Math.pow(1+alt_agl/R,2) - 1.0);
+        double kappa_d = kappa * 180/Math.PI;
+        return kappa_d;
     }
     
     
@@ -253,18 +268,8 @@ public class AtmosphereLookupUS extends AtmosphereUS {
 /* RETRIEVE PSUEDO-CONSTANTS                                                             */
 //***************************************************************************************//
     public static void getConstants() throws FileNotFoundException, IOException{
-    //  Get time around sun (days) and aphelion/perihelion Julian day
-        PEARTH = SunEarthGetter.perihelionInterval();
-        APHELIONJULIANDAY = SunEarthGetter.aphelionJulian();
-        PERIHELIONJULIANDAY = SunEarthGetter.perihelionJulian();
-        
-    //  Get aphelion and perihelion distances (ft)
-        double[] dis = new double[2];
-        dis = SunEarthGetter.aphelionPerihelionDistance();
-        APHELIONDISTANCE = dis[0] / FT2AU;
-        PERIHELIONDISTANCE = dis[1] / FT2AU;
-        
     //  Get current date/time from DateTime.java
+        SunEarthGetter.getPresentDay();
         int[] current = new int[6];
         DateTime dy = new DateTime();
         current = dy.dayLookup();
@@ -289,6 +294,22 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     //  Calculate current Julian day
         PRESENTJULIANDAY = DateTime.dateTime2JulianDay(date, leapYear, time);
         
+    //  Get time around sun (days) and aphelion/perihelion Julian day
+        PEARTH = SunEarthGetter.perihelionInterval();
+        APHELIONJULIANDAY = SunEarthGetter.aphelionJulian();
+        PERIHELIONJULIANDAY = SunEarthGetter.perihelionJulian();
+        
+    //  Get solstice days
+        SUMMERJULIANDAY = SunEarthGetter.summerJulian();
+        WINTERJULIANDAY = SunEarthGetter.winterJulian();
+        
+    //  Get aphelion and perihelion distances (ft)
+        double[] dis = new double[2];
+        dis = SunEarthGetter.aphelionPerihelionDistance();
+        APHELIONDISTANCE = dis[0] / FT2AU;
+        PERIHELIONDISTANCE = dis[1] / FT2AU;
+        
+       
     }
     
 //***************************************************************************************//
