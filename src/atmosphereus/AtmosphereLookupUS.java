@@ -17,7 +17,7 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     static double PSI2NSM       = 6894.4138;        //mult lb/in^2 to get N/m^2
     static double SCF2KCM       = 515.379;          //mult slugs/ft^3 to get kg/m^3
     static double KM2NM         = 1.852;            //mult km to get nautical miles
-    static double MS2KTS        = 900/463;          //mult m/s to get kts
+    static double MS2KTS        = 900/463.0;        //mult m/s to get kts
     static double MB2INHG       = 33.8639;          //mult pressure millibars to get inHg
     static double INHG2PSI      = 0.491154;         //mult pressure inHg to get psi
     static double PSI2KPA       = 6.89476;          //mult pressure psi to get kPascals
@@ -25,8 +25,8 @@ public class AtmosphereLookupUS extends AtmosphereUS {
     
 //  Conversion Constants (US)
     static double GC            = 32.174;           //mult slugs to get lbm
-    static double NM2FT         = 2315000/381;      //mult nautical miles to get feet
-    static double MI2NM         = 57875/50292;      //mult miles to get nautical miles 
+    static double NM2FT         = 2315000/381.0;    //mult nautical miles to get feet
+    static double MI2NM         = 57875/50292.0;    //mult miles to get nautical miles 
     static double FPS2KTS       = 0.592484;         //mult fps to get kts
     static double F2R           = 459.67;           //add degF to get degR
     static double C2K           = 273.15;           //add degC to get Kelvin

@@ -22,13 +22,14 @@ public class AtmosphereUS {
 
 // Checkout horizon calculator
         
-        System.out.println("Height\tHorizon Distance");
-        for (int i=1; i <= 10; i++){
-            double x = (double) i;
-            double h = 1.0 * Math.pow(10, x);
-            double dis = AtmosphereLookupUS.horizonDistance(h);
-            System.out.format("%12.0f\t%12.2f\n", h, dis/5280);
-        }
+//        System.out.println("Height\tHorizon Distance\tCurve");
+//        for (int i=1; i <= 10; i++){
+//            double x = (double) i;
+//            double h = 1.0 * Math.pow(10, x);
+//            double dis = AtmosphereLookupUS.horizonDistance(h);
+//            double kap = AtmosphereLookupUS.horizonCurvature(h);
+//            System.out.format("%12.0f\t%12.2f%10.3f\n", h, dis/5280, kap);
+//        }
 
 // Checkout sun earth distance
 //        double nu = AtmosphereLookupUS.trueAnomaly(115);
@@ -37,10 +38,13 @@ public class AtmosphereUS {
 
 // Checkout SunEarthGetter
         
-//        double julianAH = SunEarthGetter.aphelionJulian();
-//        double julianPH = SunEarthGetter.perihelionJulian();
-//        System.out.format("aphelion = %7.3f\nperihelion = %7.3f\n\n", julianAH, julianPH);
-
+        double julianAH = SunEarthGetter.aphelionJulian();
+        double julianPH = SunEarthGetter.perihelionJulian();
+        double summerSol= SunEarthGetter.summerJulian();
+        double winterSol= SunEarthGetter.winterJulian();
+        System.out.format("aphelion = %7.3f\nperihelion = %7.3f\n", julianAH, julianPH);
+        System.out.format("summer = %7.3f\nwinter = %7.3f\n",summerSol,winterSol);
+        
 // Check Julian Day
 ////        String date = "01-01";
 //        String time = "18:00:00";

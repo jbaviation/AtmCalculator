@@ -1,3 +1,2 @@
-Finished checking out sunearthgetter
-finished checking out true anomaly, sunearthdistance, horizon distance
-Need to finish earth curvature
+Finished checking out earth curvature
+Added SolsticesEquinoxes.txt
