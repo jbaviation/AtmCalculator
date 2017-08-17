@@ -20,6 +20,16 @@ public class AtmosphereUS {
         
 //  CHECK ALL NONSTDATMOSPHERE CALCULATIONS
 
+// Checkout SunMoonPosition calcs
+        double jday = DateTime.dateTime2JulianDay("01-01", "no", "21:39:26");
+//        double smpday = SunMoonPosition.moonPhaseDay(jday);
+//        String smp = SunMoonPosition.moonPhase(jday);
+//        System.out.format("Lunar phase = %s %7.3f\n",smp, smpday);
+        double sd = SunMoonPosition.solarDeclination(jday);
+        double eot= SunMoonPosition.equationnOfTime(jday);
+        System.out.println("Solar Declination: " + sd);
+        System.out.println("Equation of Time:  " + eot);
+
 // Checkout horizon calculator
         
 //        System.out.println("Height\tHorizon Distance\tCurve");
@@ -38,12 +48,12 @@ public class AtmosphereUS {
 
 // Checkout SunEarthGetter
         
-        double julianAH = SunEarthGetter.aphelionJulian();
-        double julianPH = SunEarthGetter.perihelionJulian();
-        double summerSol= SunEarthGetter.summerJulian();
-        double winterSol= SunEarthGetter.winterJulian();
-        System.out.format("aphelion = %7.3f\nperihelion = %7.3f\n", julianAH, julianPH);
-        System.out.format("summer = %7.3f\nwinter = %7.3f\n",summerSol,winterSol);
+//        double julianAH = SunEarthGetter.aphelionJulian();
+//        double julianPH = SunEarthGetter.perihelionJulian();
+//        double summerSol= SunEarthGetter.summerJulian();
+//        double winterSol= SunEarthGetter.winterJulian();
+//        System.out.format("aphelion = %7.3f\nperihelion = %7.3f\n", julianAH, julianPH);
+//        System.out.format("summer = %7.3f\nwinter = %7.3f\n",summerSol,winterSol);
         
 // Check Julian Day
 ////        String date = "01-01";
