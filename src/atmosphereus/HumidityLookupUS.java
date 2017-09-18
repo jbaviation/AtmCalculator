@@ -14,9 +14,10 @@ public class HumidityLookupUS extends AtmosphereLookupUS {
     }
     
     public static double relativeHumidity(double temperature, double dewPoint){
-        double rh = 0;
-        
-// INCOMPLETE
+        double t=temperature;
+        double td=dewPoint;
+        double rh;
+        rh = 100*Math.exp((17.625*td)/(243.04+td))/Math.exp((17.625*t)/(243.04+t));
         
         return rh;
     }
@@ -78,10 +79,16 @@ public class HumidityLookupUS extends AtmosphereLookupUS {
         return wc;
     }
     
-    public static double heatIndex(double temperature, double dewPoint){
-        double hi = 0;
-        
-// INCOMPLETE
+    public static double heatIndex(double temperature, double dewPoint){        
+        // Sourced: http://www.engineeringtoolbox.com/heat-index-d_935.html
+        double hi;
+        double phi = relativeHumidity(temperature,dewPoint);
+        double t = temperature;
+
+        hi = -42.379 + 2.04901523*t + 10.14333127*phi 
+                - 0.22475541*t*phi - 0.00683783*t*t - 0.05481717*phi*phi
+                + 0.00122874*t*t*phi + 0.00085282*t*phi*phi 
+                - 0.00000199*Math.pow(t*phi,2);      
         
         return hi;
     }
@@ -89,8 +96,8 @@ public class HumidityLookupUS extends AtmosphereLookupUS {
     public static double discomfortIndex(double temperature, double dewPoint){
         // temperature and dewPoint (degF)
         // Defined as a function of wet bulb temp DI = 0.4 (td + tw) + 15
-        double DI = 0.55*temperature + 0.2*dewPoint + 17.5;
-        return DI;
+        double di = 0.55*temperature + 0.2*dewPoint + 17.5;
+        return di;
     }
     
 }
