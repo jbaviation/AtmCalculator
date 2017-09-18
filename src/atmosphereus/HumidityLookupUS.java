@@ -86,4 +86,11 @@ public class HumidityLookupUS extends AtmosphereLookupUS {
         return hi;
     }
     
+    public static double discomfortIndex(double temperature, double dewPoint){
+        // temperature and dewPoint (degF)
+        // Defined as a function of wet bulb temp DI = 0.4 (td + tw) + 15
+        double DI = 0.55*temperature + 0.2*dewPoint + 17.5;
+        return DI;
+    }
+    
 }
